@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Bell } from 'lucide-react';
 
 interface Ticker {
-  id: number;
+  id: string;
   text: string;
   isActive: boolean;
 }

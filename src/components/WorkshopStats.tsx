@@ -4,7 +4,7 @@ import { GraduationCap, Users, Building, Trophy } from 'lucide-react';
 import Skeleton from './ui/Skeleton';
 
 interface Stat {
-  id: number;
+  id: string;
   key: string;
   value: string;
   label: string;

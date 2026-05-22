@@ -6,7 +6,7 @@ import PdfPreviewModal from './PdfPreviewModal';
 import Skeleton from './ui/Skeleton';
 
 interface Notification {
-  id: number;
+  id: string;
   title: string;
   pdfUrl: string;
   category: string;

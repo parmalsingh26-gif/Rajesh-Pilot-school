@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 import Skeleton from './ui/Skeleton';
 
 interface Officer {
-  id: number;
+  id: string;
   name: string;
   designation: string;
   imageUrl: string;

@@ -5,9 +5,9 @@ import Skeleton from '../components/ui/Skeleton';
 import { Link } from 'react-router-dom';
 
 interface SearchResultsData {
-  notifications: { id: number; title: string; pdfUrl: string; category: string; createdAt: string }[];
-  tickers: { id: number; text: string }[];
-  gallery: { id: number; imageUrl: string; caption: string; createdAt: string }[];
+  notifications: { id: string; title: string; pdfUrl: string; category: string; createdAt: string }[];
+  tickers: { id: string; text: string }[];
+  gallery: { id: string; imageUrl: string; caption: string; createdAt: string }[];
 }
 
 export default function SearchResults() {

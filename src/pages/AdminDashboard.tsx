@@ -319,7 +319,7 @@ function SliderManager() {
     fetchSliders();
   };
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (id: string) => {
     if (!confirm('Are you sure?')) return;
     await fetch(`/api/sliders/${id}`, { method: 'DELETE' });
     fetchSliders();
@@ -439,13 +439,13 @@ function TickerManager() {
     }
   };
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (id: string) => {
     if (!confirm('Are you sure?')) return;
     await fetch(`/api/tickers/${id}`, { method: 'DELETE' });
     fetchTickers();
   };
 
-  const handleToggleActive = async (id: number, currentActive: boolean) => {
+  const handleToggleActive = async (id: string, currentActive: boolean) => {
     await fetch(`/api/tickers/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -536,7 +536,7 @@ function NotificationManager() {
     fetchNotifications();
   };
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (id: string) => {
     if (!confirm('Are you sure?')) return;
     await fetch(`/api/notifications/${id}`, { method: 'DELETE' });
     fetchNotifications();
@@ -614,7 +614,7 @@ function GalleryManager() {
     fetchImages();
   };
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (id: string) => {
     if (!confirm('Are you sure?')) return;
     await fetch(`/api/gallery/${id}`, { method: 'DELETE' });
     fetchImages();
@@ -862,7 +862,7 @@ function OfficerManager() {
     fetchOfficers();
   };
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to remove this officer?')) return;
     await fetch(`/api/officers/${id}`, { method: 'DELETE' });
     fetchOfficers();
@@ -1020,7 +1020,7 @@ function ResultsManager() {
     fetchResults();
   };
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (id: string) => {
     if (!confirm('Are you sure?')) return;
     await fetch(`/api/results/${id}`, { method: 'DELETE' });
     fetchResults();
@@ -1089,7 +1089,7 @@ function MessagesManager() {
   const fetchMessages = () => fetch('/api/admin/messages').then(res => res.json()).then(setMessages);
   useEffect(() => { fetchMessages(); }, []);
 
-  const handleMarkRead = async (id: number) => {
+  const handleMarkRead = async (id: string) => {
     await fetch(`/api/admin/messages/${id}/read`, { method: 'PUT' });
     fetchMessages();
   };
@@ -1441,7 +1441,7 @@ function FAQManager() {
     fetchFaqs();
   };
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (id: string) => {
     if (!confirm('Delete this FAQ?')) return;
     await fetch(`/api/faqs/${id}`, { method: 'DELETE' });
     fetchFaqs();
@@ -1542,7 +1542,7 @@ function CareerManager() {
     fetchCareers();
   };
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (id: string) => {
     if (!confirm('Delete this vacancy?')) return;
     await fetch(`/api/careers/${id}`, { method: 'DELETE' });
     fetchCareers();

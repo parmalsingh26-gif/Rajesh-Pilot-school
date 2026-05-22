@@ -4,7 +4,7 @@ import { Briefcase, MapPin, GraduationCap, Clock, Calendar, CheckCircle, Message
 import Skeleton from '../components/ui/Skeleton';
 
 interface Career {
-  id: number;
+  id: string;
   title: string;
   department: string;
   qualification: string;

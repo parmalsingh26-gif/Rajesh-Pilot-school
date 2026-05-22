@@ -4,7 +4,7 @@ import { ChevronDown, ChevronUp, HelpCircle, Search } from 'lucide-react';
 import Skeleton from '../components/ui/Skeleton';
 
 interface FAQ {
-  id: number;
+  id: string;
   question: string;
   answer: string;
   orderIndex: number;

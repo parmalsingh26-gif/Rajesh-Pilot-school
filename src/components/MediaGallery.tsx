@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import Skeleton from './ui/Skeleton';
 
 interface GalleryImage {
-  id: number;
+  id: string;
   imageUrl: string;
   caption: string;
 }

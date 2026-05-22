@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface Slider {
-  id: number;
+  id: string;
   title: string;
   imageUrl: string;
   orderIndex: number;

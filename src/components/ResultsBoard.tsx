@@ -5,7 +5,7 @@ import PdfPreviewModal from './PdfPreviewModal';
 import Skeleton from './ui/Skeleton';
 
 interface Result {
-  id: number;
+  id: string;
   title: string;
   pdfUrl: string;
   category: string;
