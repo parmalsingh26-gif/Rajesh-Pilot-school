@@ -192,7 +192,7 @@ export async function seedDatabase() {
     const defaultPages = [
       { slug: 'about-history', title: 'Our History', content: '<h2>History of Rajesh Pilot Secondary School</h2><p>Founded with the vision to provide quality education...</p>' },
       { slug: 'about-vision-mission', title: 'Vision & Mission', content: '<h2>Our Vision</h2><p>To be a premier institution of learning...</p><h2>Our Mission</h2><p>To nurture young minds...</p>' },
-      { slug: 'about-principal-desk', title: 'Principal\\'s Desk', content: '<h2>Message from the Principal</h2><p>Welcome to Rajesh Pilot Secondary School...</p>' },
+      { slug: 'about-principal-desk', title: "Principal's Desk", content: '<h2>Message from the Principal</h2><p>Welcome to Rajesh Pilot Secondary School...</p>' },
       { slug: 'academics-curriculum', title: 'Curriculum (RBSE)', content: '<h2>Academic Curriculum</h2><p>We follow the Rajasthan Board of Secondary Education (RBSE) syllabus...</p>' },
       { slug: 'school-life-infrastructure', title: 'Infrastructure', content: '<h2>Campus & Facilities</h2><p>Our campus is equipped with modern classrooms, science labs, and sports facilities...</p>' }
     ];
