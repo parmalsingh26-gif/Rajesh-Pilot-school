@@ -456,17 +456,17 @@ async function startServer() {
   });
 
   app.put('/api/stats', authenticate, (req, res) => {
-    const { stats } = req.body; // Array of { key, value }
+    const { stats } = req.body;
     if (!Array.isArray(stats)) return res.status(400).json({ error: 'Invalid format' });
     
-    const stmt = db.prepare('UPDATE stats SET value = ? WHERE key = ?');
+    const stmt = db.prepare('UPDATE stats SET value = ?, label = ?, icon = ? WHERE key = ?');
     const transaction = db.transaction((statsToUpdate) => {
       for (const stat of statsToUpdate) {
-        stmt.run(stat.value, stat.key);
+        stmt.run(stat.value, stat.label, stat.icon, stat.key);
       }
     });
     transaction(stats);
-    logActivity('Updated Stats', 'Workshop stats updated');
+    logActivity('Updated Stats', 'School stats updated');
     res.json({ success: true });
   });
 
