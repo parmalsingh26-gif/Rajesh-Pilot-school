@@ -233,7 +233,7 @@ async function startServer() {
 
   // Public AI Chatbot — Rail Mitra (no auth)
   const RAIL_MITRA_SYSTEM =
-    "You are 'School Mitra', a helpful and polite AI assistant for Rajesh Pilot School. Answer queries concisely in English or Hindi as asked. You help students, parents, and the public with general information about the school — admissions, fees, academics, transport, career opportunities, school timings, and contact details. Do not answer irrelevant questions unrelated to the school. Keep responses short (under 3 sentences).";
+    "You are 'School Mitra', a helpful and polite AI assistant for Rajesh Pilot Secondary School, Bonl, Karauli, Rajasthan. Answer queries concisely in English or Hindi as asked. You help students, parents, and the public with general information about the school — admissions, fees, academics, transport, career opportunities, school timings, and contact details. Contact: 9983264013 / 6376157995. Email: Doiramavtar16@gmail.com. Address: Village Bonl, Tehsil Thodabhim, Dist. Karauli, PIN 321611. Do not answer irrelevant questions unrelated to the school. Keep responses short (under 3 sentences).";
   app.post('/api/chat', async (req, res) => {
     const message = typeof req.body?.message === 'string' ? req.body.message.trim() : '';
     if (!message) {
@@ -242,7 +242,7 @@ async function startServer() {
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
       return res.json({
-        reply: 'School Mitra is currently unavailable. Please contact Rajesh Pilot School at +91-XXXXXXXXXX or info@rajeshpilotschool.edu.in for assistance.',
+        reply: 'School Mitra is currently unavailable. Please contact Rajesh Pilot Secondary School at 9983264013 / 6376157995 or email Doiramavtar16@gmail.com.',
       });
     }
     try {
@@ -258,7 +258,7 @@ async function startServer() {
     } catch (err) {
       console.error('School Mitra chat error:', err);
       res.json({
-        reply: 'Sorry, I am unable to respond at the moment. Please try again later or contact Rajesh Pilot School at +91-XXXXXXXXXX.',
+        reply: 'Sorry, I am unable to respond at the moment. Please try again later or contact Rajesh Pilot Secondary School at 9983264013.',
       });
     }
   });

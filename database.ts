@@ -151,24 +151,31 @@ if (officersCount.count === 0) {
 const slidersCount = db.prepare('SELECT COUNT(*) as count FROM sliders').get() as { count: number };
 if (slidersCount.count === 0) {
   const seedSliders = [
-    { title: 'Welcome to Rajesh Pilot School', imageUrl: 'https://picsum.photos/seed/school1/1920/600', orderIndex: 1 },
-    { title: 'Excellence in Education Since 2000', imageUrl: 'https://picsum.photos/seed/school2/1920/600', orderIndex: 2 },
-    { title: 'Admission Open 2024-25', imageUrl: 'https://picsum.photos/seed/school3/1920/600', orderIndex: 3 },
+    { title: 'Welcome to Rajesh Pilot Secondary School, Bonl', imageUrl: 'https://picsum.photos/seed/school1/1920/600', orderIndex: 1 },
+    { title: 'Excellence in Education — Karauli, Rajasthan', imageUrl: 'https://picsum.photos/seed/school2/1920/600', orderIndex: 2 },
+    { title: 'Admission Open 2024-25 — Apply Now!', imageUrl: 'https://picsum.photos/seed/school3/1920/600', orderIndex: 3 },
   ];
   const insertSlider = db.prepare('INSERT INTO sliders (title, imageUrl, orderIndex) VALUES (?, ?, ?)');
   seedSliders.forEach(s => insertSlider.run(s.title, s.imageUrl, s.orderIndex));
+} else {
+  // Migrate old railway-themed slider titles
+  db.prepare("UPDATE sliders SET title = 'Welcome to Rajesh Pilot Secondary School, Bonl' WHERE title LIKE '%Bhavnagar%' OR title LIKE '%Railway%' OR title LIKE '%Workshop%'").run();
+  db.prepare("UPDATE sliders SET title = 'Excellence in Education — Karauli, Rajasthan' WHERE title LIKE '%Excellence in Railway%'").run();
 }
 
 // Seed tickers if not exists
 const tickersCount = db.prepare('SELECT COUNT(*) as count FROM tickers').get() as { count: number };
 if (tickersCount.count === 0) {
   const seedTickers = [
-    { text: '📚 Admission Open 2024-25 — Apply Now for Classes Nursery to XII!', isActive: 1 },
-    { text: '🏆 Congratulations to our Class X students — 98% result in Board Exams!', isActive: 1 },
-    { text: '🎉 Annual Sports Day on 28th May — All students must participate.', isActive: 1 },
+    { text: '📚 Admission Open 2024-25 — Apply Now at Rajesh Pilot Secondary School, Bonl!', isActive: 1 },
+    { text: '🏆 Half-Yearly Exam Result Published — Check Results Section!', isActive: 1 },
+    { text: '🎉 Annual Sports Day — All Students Must Participate.', isActive: 1 },
   ];
   const insertTicker = db.prepare('INSERT INTO tickers (text, isActive) VALUES (?, ?)');
   seedTickers.forEach(t => insertTicker.run(t.text, t.isActive));
+} else {
+  // Migrate old railway tickers
+  db.prepare("UPDATE tickers SET isActive = 0 WHERE text LIKE '%technicians%' OR text LIKE '%Safety week%' OR text LIKE '%LDCE%'").run();
 }
 
 // Seed notifications if not exists

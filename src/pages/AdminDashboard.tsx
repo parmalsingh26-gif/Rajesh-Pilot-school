@@ -1000,7 +1000,7 @@ function OfficerManager() {
 function ResultsManager() {
   const [results, setResults] = useState<any[]>([]);
   const [title, setTitle] = useState('');
-  const [category, setCategory] = useState('Class X');
+  const [category, setCategory] = useState('Annual Exam');
   const [file, setFile] = useState<File | null>(null);
 
   const fetchResults = () => fetch('/api/results?limit=100').then(res => res.json()).then(data => setResults(data.results || []));
@@ -1015,7 +1015,7 @@ function ResultsManager() {
     formData.append('pdf', file);
     await fetch('/api/results', { method: 'POST', body: formData });
     setTitle('');
-    setCategory('Class X');
+    setCategory('Annual Exam');
     setFile(null);
     fetchResults();
   };
@@ -1038,9 +1038,16 @@ function ResultsManager() {
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1">Category</label>
             <select value={category} onChange={e => setCategory(e.target.value)} className="w-full border border-slate-300 rounded-lg px-3 py-2 bg-white">
-              <option value="Class X">Class X</option>
-              <option value="Class XII">Class XII</option>
-              <option value="Internal Exam">Internal Exam</option>
+              <option value="Annual Exam">Annual / Yearly Exam</option>
+              <option value="Half-Yearly Exam">Half-Yearly Exam</option>
+              <option value="Unit Test - I">Unit Test – I</option>
+              <option value="Unit Test - II">Unit Test – II</option>
+              <option value="Unit Test - III">Unit Test – III</option>
+              <option value="Monthly Test">Monthly Test</option>
+              <option value="Pre-Board">Pre-Board Examination</option>
+              <option value="Board Exam Class X">Board Exam – Class X</option>
+              <option value="Board Exam Class XII">Board Exam – Class XII</option>
+              <option value="Internal Assessment">Internal Assessment</option>
               <option value="Merit List">Merit List</option>
               <option value="Other">Other</option>
             </select>

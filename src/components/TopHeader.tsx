@@ -55,14 +55,14 @@ export default function TopHeader() {
   return (
     <div className="bg-blue-900 text-white text-xs sm:text-sm py-2 px-4">
       <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
-        <div className="flex items-center gap-4">
-          <a href="tel:+91XXXXXXXXXX" className="flex items-center gap-1 hover:text-blue-200 transition-colors">
+        <div className="flex items-center gap-4 flex-wrap">
+          <a href="tel:+919983264013" className="flex items-center gap-1 hover:text-blue-200 transition-colors">
             <Phone size={14} />
-            <span>+91-XX-XXXX-XXXX</span>
+            <span>9983264013 / 6376157995</span>
           </a>
-          <a href="mailto:info@rajeshpilotschool.edu.in" className="flex items-center gap-1 hover:text-blue-200 transition-colors">
+          <a href="mailto:Doiramavtar16@gmail.com" className="flex items-center gap-1 hover:text-blue-200 transition-colors">
             <Mail size={14} />
-            <span>info@rajeshpilotschool.edu.in</span>
+            <span>Doiramavtar16@gmail.com</span>
           </a>
         </div>
         <div className="flex items-center gap-4">

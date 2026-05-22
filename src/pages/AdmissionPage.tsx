@@ -170,11 +170,14 @@ export default function AdmissionPage() {
             <div className="mt-6 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-2xl p-6">
               <h3 className="font-bold text-blue-900 dark:text-blue-200 mb-3">Admission Helpdesk</h3>
               <div className="space-y-2 text-sm">
-                <a href="tel:+91XXXXXXXXXX" className="flex items-center gap-2 text-blue-700 dark:text-blue-300 hover:underline">
-                  <Phone size={16} /> +91-XX-XXXX-XXXX
+                <a href="tel:+919983264013" className="flex items-center gap-2 text-blue-700 dark:text-blue-300 hover:underline">
+                  <Phone size={16} /> 9983264013
                 </a>
-                <a href="mailto:admissions@rajeshpilotschool.edu.in" className="flex items-center gap-2 text-blue-700 dark:text-blue-300 hover:underline">
-                  <Mail size={16} /> admissions@rajeshpilotschool.edu.in
+                <a href="tel:+916376157995" className="flex items-center gap-2 text-blue-700 dark:text-blue-300 hover:underline">
+                  <Phone size={16} /> 6376157995
+                </a>
+                <a href="mailto:Doiramavtar16@gmail.com" className="flex items-center gap-2 text-blue-700 dark:text-blue-300 hover:underline">
+                  <Mail size={16} /> Doiramavtar16@gmail.com
                 </a>
               </div>
             </div>

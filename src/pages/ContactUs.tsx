@@ -64,9 +64,9 @@ export default function ContactUs() {
                   <div>
                     <p className="font-semibold text-slate-800 dark:text-slate-200 mb-1">Address</p>
                     <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                      Rajesh Pilot School,<br />
-                      School Road, City Name,<br />
-                      State – 000000
+                      Rajesh Pilot Secondary School,<br />
+                      Village – Bonl, Tehsil – Thodabhim,<br />
+                      Dist. – Karauli, Rajasthan – 321611
                     </p>
                   </div>
                 </div>
@@ -76,11 +76,11 @@ export default function ContactUs() {
                   </div>
                   <div>
                     <p className="font-semibold text-slate-800 dark:text-slate-200 mb-1">Phone</p>
-                    <a href="tel:+91XXXXXXXXXX" className="text-slate-600 dark:text-slate-400 text-sm hover:text-blue-600 dark:hover:text-blue-400 transition-colors block">
-                      +91-XX-XXXX-XXXX (Office)
+                    <a href="tel:+919983264013" className="text-slate-600 dark:text-slate-400 text-sm hover:text-blue-600 dark:hover:text-blue-400 transition-colors block">
+                      9983264013 (Office / Admissions)
                     </a>
-                    <a href="tel:+91XXXXXXXXXX" className="text-slate-600 dark:text-slate-400 text-sm hover:text-blue-600 dark:hover:text-blue-400 transition-colors block">
-                      +91-XX-XXXX-XXXX (Admission)
+                    <a href="tel:+916376157995" className="text-slate-600 dark:text-slate-400 text-sm hover:text-blue-600 dark:hover:text-blue-400 transition-colors block">
+                      6376157995 (Alternate)
                     </a>
                   </div>
                 </div>
@@ -90,11 +90,8 @@ export default function ContactUs() {
                   </div>
                   <div>
                     <p className="font-semibold text-slate-800 dark:text-slate-200 mb-1">Email</p>
-                    <a href="mailto:info@rajeshpilotschool.edu.in" className="text-slate-600 dark:text-slate-400 text-sm hover:text-blue-600 dark:hover:text-blue-400 transition-colors block">
-                      info@rajeshpilotschool.edu.in
-                    </a>
-                    <a href="mailto:admissions@rajeshpilotschool.edu.in" className="text-slate-600 dark:text-slate-400 text-sm hover:text-blue-600 dark:hover:text-blue-400 transition-colors block">
-                      admissions@rajeshpilotschool.edu.in
+                    <a href="mailto:Doiramavtar16@gmail.com" className="text-slate-600 dark:text-slate-400 text-sm hover:text-blue-600 dark:hover:text-blue-400 transition-colors block">
+                      Doiramavtar16@gmail.com
                     </a>
                   </div>
                 </div>
