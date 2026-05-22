@@ -49,6 +49,18 @@ async function startServer() {
   await dbConnection.asPromise();
   await seedDatabase();
 
+  // Verify Cloudinary connection
+  try {
+    if (process.env.CLOUDINARY_API_KEY) {
+      await cloudinary.api.ping();
+      console.log('Connected to Cloudinary successfully');
+    } else {
+      console.warn('Cloudinary keys not found. File uploads will fail.');
+    }
+  } catch (err) {
+    console.error('Cloudinary connection error:', err);
+  }
+
   app.use(express.json());
   app.use(cookieParser());
   
