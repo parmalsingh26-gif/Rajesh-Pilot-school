@@ -8,6 +8,7 @@ import fs from 'fs';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import cookieParser from 'cookie-parser';
+import { v2 as cloudinary } from 'cloudinary';
 
 import dbConnection, {
   seedDatabase, User, Slider, Ticker, Notification, Gallery,
@@ -16,21 +17,28 @@ import dbConnection, {
 
 const JWT_SECRET = process.env.JWT_SECRET || 'super-secret-key-for-dev-only-change-in-prod';
 
-// Ensure uploads directory exists
-const uploadDir = path.resolve(process.cwd(), 'uploads');
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
-}
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, uploadDir);
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
-  }
+// Configure Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
 });
+
+const uploadToCloudinary = (buffer: Buffer): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const uploadStream = cloudinary.uploader.upload_stream(
+      { resource_type: 'auto' },
+      (error, result) => {
+        if (error) reject(error);
+        else resolve(result?.secure_url || '');
+      }
+    );
+    uploadStream.end(buffer);
+  });
+};
+
+// Use memory storage for uploads before sending to Cloudinary
+const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 async function startServer() {
@@ -43,7 +51,12 @@ async function startServer() {
 
   app.use(express.json());
   app.use(cookieParser());
-  app.use('/uploads', express.static(uploadDir));
+  
+  // Keep uploads directory static route just in case there are old links in DB during migration
+  const uploadDir = path.resolve(process.cwd(), 'uploads');
+  if (fs.existsSync(uploadDir)) {
+    app.use('/uploads', express.static(uploadDir));
+  }
 
   // --- Auth Middleware ---
   const authenticate = (req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -131,13 +144,23 @@ async function startServer() {
   });
 
   app.post('/api/sliders', authenticate, upload.single('image'), async (req, res) => {
-    const { title, orderIndex } = req.body;
-    const imageUrl = req.file ? `/uploads/${req.file.filename}` : req.body.imageUrl;
-    if (!imageUrl) return res.status(400).json({ error: 'Image is required' });
-    
-    const slider = await Slider.create({ title: title || '', imageUrl, orderIndex: orderIndex || 0 });
-    await logActivity('Added Slider', `Title: ${title || 'Untitled'}`);
-    res.json(slider);
+    try {
+      const { title, orderIndex } = req.body;
+      let imageUrl = req.body.imageUrl;
+      
+      if (req.file) {
+        imageUrl = await uploadToCloudinary(req.file.buffer);
+      }
+      
+      if (!imageUrl) return res.status(400).json({ error: 'Image is required' });
+      
+      const slider = await Slider.create({ title: title || '', imageUrl, orderIndex: orderIndex || 0 });
+      await logActivity('Added Slider', `Title: ${title || 'Untitled'}`);
+      res.json(slider);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Failed to upload image' });
+    }
   });
 
   app.delete('/api/sliders/:id', authenticate, async (req, res) => {
@@ -309,13 +332,23 @@ async function startServer() {
   });
 
   app.post('/api/notifications', authenticate, upload.single('pdf'), async (req, res) => {
-    const { title, category = 'General' } = req.body;
-    const pdfUrl = req.file ? `/uploads/${req.file.filename}` : req.body.pdfUrl;
-    if (!pdfUrl) return res.status(400).json({ error: 'PDF is required' });
+    try {
+      const { title, category = 'General' } = req.body;
+      let pdfUrl = req.body.pdfUrl;
+      
+      if (req.file) {
+        pdfUrl = await uploadToCloudinary(req.file.buffer);
+      }
+      
+      if (!pdfUrl) return res.status(400).json({ error: 'PDF is required' });
 
-    const notification = await Notification.create({ title, pdfUrl, category });
-    await logActivity('Added Notification', `Title: ${title}, Category: ${category}`);
-    res.json(notification);
+      const notification = await Notification.create({ title, pdfUrl, category });
+      await logActivity('Added Notification', `Title: ${title}, Category: ${category}`);
+      res.json(notification);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Failed to upload PDF' });
+    }
   });
 
   app.delete('/api/notifications/:id', authenticate, async (req, res) => {
@@ -344,12 +377,22 @@ async function startServer() {
   });
 
   app.post('/api/results', authenticate, upload.single('pdf'), async (req, res) => {
-    const { title, category = 'General' } = req.body;
-    const pdfUrl = req.file ? `/uploads/${req.file.filename}` : req.body.pdfUrl;
-    if (!pdfUrl) return res.status(400).json({ error: 'PDF is required' });
-    const result = await Result.create({ title: title || '', pdfUrl, category: category || 'General' });
-    await logActivity('Added Result', `Title: ${title}, Category: ${category}`);
-    res.json(result);
+    try {
+      const { title, category = 'General' } = req.body;
+      let pdfUrl = req.body.pdfUrl;
+      
+      if (req.file) {
+        pdfUrl = await uploadToCloudinary(req.file.buffer);
+      }
+      
+      if (!pdfUrl) return res.status(400).json({ error: 'PDF is required' });
+      const result = await Result.create({ title: title || '', pdfUrl, category: category || 'General' });
+      await logActivity('Added Result', `Title: ${title}, Category: ${category}`);
+      res.json(result);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Failed to upload PDF' });
+    }
   });
 
   app.delete('/api/results/:id', authenticate, async (req, res) => {
@@ -365,13 +408,24 @@ async function startServer() {
   });
 
   app.post('/api/officers', authenticate, upload.single('image'), async (req, res) => {
-    const { name, designation, orderIndex } = req.body;
-    const imageUrl = req.file ? `/uploads/${req.file.filename}` : '';
-    if (!name || !designation?.trim()) return res.status(400).json({ error: 'Name and designation are required' });
-    if (!imageUrl) return res.status(400).json({ error: 'Image file is required' });
-    const officer = await Officer.create({ name: name.trim(), designation: designation.trim(), imageUrl, orderIndex: Number(orderIndex) || 0 });
-    await logActivity('Added Officer', `Name: ${name.trim()}`);
-    res.json(officer);
+    try {
+      const { name, designation, orderIndex } = req.body;
+      let imageUrl = req.body.imageUrl;
+      
+      if (req.file) {
+        imageUrl = await uploadToCloudinary(req.file.buffer);
+      }
+      
+      if (!name || !designation?.trim()) return res.status(400).json({ error: 'Name and designation are required' });
+      if (!imageUrl) return res.status(400).json({ error: 'Image file is required' });
+      
+      const officer = await Officer.create({ name: name.trim(), designation: designation.trim(), imageUrl, orderIndex: Number(orderIndex) || 0 });
+      await logActivity('Added Officer', `Name: ${name.trim()}`);
+      res.json(officer);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Failed to upload image' });
+    }
   });
 
   app.delete('/api/officers/:id', authenticate, async (req, res) => {
@@ -381,16 +435,22 @@ async function startServer() {
   });
 
   app.put('/api/officers/:id', authenticate, upload.single('image'), async (req, res) => {
-    const { name, designation, orderIndex } = req.body;
-    const id = req.params.id;
-    
-    const updateData: any = { name, designation, orderIndex: orderIndex || 0 };
-    if (req.file) {
-      updateData.imageUrl = `/uploads/${req.file.filename}`;
+    try {
+      const { name, designation, orderIndex } = req.body;
+      const id = req.params.id;
+      
+      const updateData: any = { name, designation, orderIndex: orderIndex || 0 };
+      if (req.file) {
+        updateData.imageUrl = await uploadToCloudinary(req.file.buffer);
+      }
+      
+      await Officer.findByIdAndUpdate(id, updateData);
+      await logActivity('Updated Officer', `Name: ${name}`);
+      res.json({ success: true });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Failed to upload image' });
     }
-    await Officer.findByIdAndUpdate(id, updateData);
-    await logActivity('Updated Officer', `Name: ${name}`);
-    res.json({ success: true });
   });
 
   app.put('/api/officers/reorder', authenticate, async (req, res) => {
@@ -411,13 +471,23 @@ async function startServer() {
   });
 
   app.post('/api/gallery', authenticate, upload.single('image'), async (req, res) => {
-    const { caption } = req.body;
-    const imageUrl = req.file ? `/uploads/${req.file.filename}` : req.body.imageUrl;
-    if (!imageUrl) return res.status(400).json({ error: 'Image is required' });
-    
-    const gallery = await Gallery.create({ imageUrl, caption: caption || '' });
-    await logActivity('Added Gallery Image', `Caption: ${caption || 'None'}`);
-    res.json(gallery);
+    try {
+      const { caption } = req.body;
+      let imageUrl = req.body.imageUrl;
+      
+      if (req.file) {
+        imageUrl = await uploadToCloudinary(req.file.buffer);
+      }
+      
+      if (!imageUrl) return res.status(400).json({ error: 'Image is required' });
+      
+      const gallery = await Gallery.create({ imageUrl, caption: caption || '' });
+      await logActivity('Added Gallery Image', `Caption: ${caption || 'None'}`);
+      res.json(gallery);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Failed to upload image' });
+    }
   });
 
   app.delete('/api/gallery/:id', authenticate, async (req, res) => {
