@@ -75,8 +75,8 @@ export default function Navbar() {
 
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2.5 shrink-0">
-            <div className="w-10 h-10 bg-blue-900 dark:bg-blue-800 rounded-full flex items-center justify-center text-white shrink-0">
-              <GraduationCap size={22} />
+            <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 overflow-hidden bg-white border border-blue-200">
+              <img src="/school-logo.jpg" alt="School Logo" className="w-full h-full object-cover" />
             </div>
             <div className="leading-tight hidden sm:block">
               <p className="text-sm font-bold text-blue-900 dark:text-blue-400 leading-none">RAJESH PILOT SEC. SCHOOL</p>

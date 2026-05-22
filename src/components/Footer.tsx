@@ -11,8 +11,8 @@ export default function Footer() {
         {/* School Identity */}
         <div>
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white shrink-0">
-              <GraduationCap size={22} />
+            <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 overflow-hidden bg-white border border-blue-600">
+              <img src="/school-logo.jpg" alt="School Logo" className="w-full h-full object-cover" />
             </div>
             <div>
               <h3 className="text-white text-sm font-bold leading-tight">RAJESH PILOT</h3>
