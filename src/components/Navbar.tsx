@@ -84,8 +84,8 @@ export default function Navbar() {
             </div>
           </Link>
 
-          {/* Desktop Nav — single scrollable row */}
-          <div className="hidden lg:flex items-center gap-0.5 flex-1 justify-center overflow-x-auto">
+          {/* Desktop Nav — single row */}
+          <div className="hidden lg:flex items-center gap-0.5 flex-1 justify-center">
             {navLinks.map((link) => {
               const active = isActive(location.pathname, link);
               const hasDropdown = !!(link.children?.length);
@@ -94,9 +94,10 @@ export default function Navbar() {
                 return (
                   <div key={link.name} className="relative group/dd shrink-0">
                     <Link
-                      to={link.path}
+                      to="#"
+                      onClick={(e) => e.preventDefault()}
                       className={clsx(
-                        'inline-flex items-center gap-0.5 px-2.5 py-2 rounded-md text-xs font-semibold transition-all duration-150 relative whitespace-nowrap',
+                        'inline-flex items-center gap-0.5 px-2.5 py-2 rounded-md text-xs font-semibold transition-all duration-150 relative whitespace-nowrap cursor-default',
                         active ? 'text-blue-700 dark:text-blue-400 bg-blue-50 dark:bg-slate-800' : 'text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-slate-800'
                       )}
                     >

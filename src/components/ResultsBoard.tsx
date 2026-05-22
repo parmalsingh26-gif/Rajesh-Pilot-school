@@ -51,7 +51,6 @@ export default function ResultsBoard({ limit = 10, showSearch = true, category =
               <FileText className="text-blue-600 dark:text-blue-500" size={32} />
               {category === 'All' ? 'Exam Results' : category}
             </h2>
-            <p className="text-slate-500 dark:text-slate-400">LDCE, GDCE, Trade Test and other departmental exam results.</p>
           </div>
         </div>
 
